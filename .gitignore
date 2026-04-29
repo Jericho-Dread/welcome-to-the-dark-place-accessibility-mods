@@ -1,0 +1,8 @@
+﻿[BepInEx/]
+[bin/]
+[obj/]
+*.user
+*.suo
+*.pdb
+Thumbs.db
+.DS_Store

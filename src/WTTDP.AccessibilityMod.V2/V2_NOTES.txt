@@ -1,0 +1,13 @@
+WTTDP Accessibility Mod V2
+
+This is a separate snapshot of the currently working V2 build and source.
+Original project/source remains available in:
+C:\Users\silen\OneDrive\Desktop\WTTDP\WTTDP.AccessibilityMod
+
+Restored baseline source used for this V2 snapshot came from:
+C:\Users\silen\OneDrive\Desktop\WTTDP\WTTDP.RestoredBaseline\WTTDP.AccessibilityMod
+
+Installed working DLL snapshot:
+C:\Users\silen\OneDrive\Desktop\WTTDP\WTTDP.AccessibilityMod.V2.dll
+Source zip:
+C:\Users\silen\OneDrive\Desktop\WTTDP\WTTDP.AccessibilityMod.V2.Source.zip
