@@ -1,15 +1,15 @@
 # V3 Release
 
-This release includes public builds and source for:
+This release includes builds and source for:
 
-- `WTTDP.AccessibilityMod`
-- `WTTDP.JournalMod`
+- `Dark-Place_Access`
+- `Dark-Place_Journal`
 
 ## Included Files
 
-- `WTTDP.AccessibilityMod.Release.zip`
-- `WTTDP.JournalMod.Release.zip`
-- `WTTDP.Public.Source.zip`
+- `Dark-Place_Access.Release.zip`
+- `Dark-Place_Journal.Release.zip`
+- `Dark-Place_Source.zip`
 
 ## Requirements
 
@@ -42,14 +42,14 @@ This release includes public builds and source for:
 ### Accessibility mod
 
 1. Install `BepInEx 5.4.23.5`.
-2. Copy the `BepInEx` folder from `WTTDP.AccessibilityMod.Release.zip` into the game folder.
+2. Copy the `BepInEx` folder from `Dark-Place_Access.Release.zip` into the game folder.
 3. Copy `nvdaControllerClient32.dll` and `nvdaControllerClient64.dll` into the game folder beside the EXE.
 4. Launch the game with NVDA running.
 
 ### Journal mod
 
 1. Make sure BepInEx is already installed.
-2. Copy the `BepInEx` folder from `WTTDP.JournalMod.Release.zip` into the game folder.
+2. Copy the `BepInEx` folder from `Dark-Place_Journal.Release.zip` into the game folder.
 3. Allow the `plugins` folder to merge.
 
 ## Main Hotkeys

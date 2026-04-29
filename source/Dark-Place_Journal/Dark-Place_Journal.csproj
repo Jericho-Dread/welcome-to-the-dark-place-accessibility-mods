@@ -4,18 +4,21 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-    <AssemblyName>WTTDP.AccessibilityMod</AssemblyName>
-    <RootNamespace>WTTDP.AccessibilityMod</RootNamespace>
+    <AssemblyName>Dark-Place_Journal</AssemblyName>
+    <RootNamespace>WTTDP.JournalMod</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BepInEx"><HintPath>YOUR_GAME_DIR\BepInEx\core\BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>YOUR_GAME_DIR\BepInEx\core\0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\UnityEngine.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.CoreModule"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.InputLegacyModule"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.IMGUIModule"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.UIModule"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.UI"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
-    <Reference Include="Unity.TextMeshPro"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.TextRenderingModule"><HintPath>YOUR_GAME_DIR\Welcome To The Dark Place_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath><Private>false</Private></Reference>
   </ItemGroup>
 </Project>
