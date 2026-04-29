@@ -42,11 +42,13 @@ public sealed class JournalPlugin : BaseUnityPlugin
     private TitleEntryPurpose _titleEntryPurpose;
     private bool _confirmingDelete;
     private bool _focusEditorRequested;
+    private int _focusEditorFramesRemaining;
     private string _lastTitleObserved = string.Empty;
     private string _lastContentObserved = string.Empty;
     private int _lastTitleCursorIndex = -1;
     private int _lastContentCursorIndex = -1;
     private int _lastEditorAnnouncementFrame = -1;
+    private int _suppressContentEditorAnnouncementsUntilFrame = -1;
     private Rect _lastContentEditorRect;
 
     private const string TitleEditorControlName = "JournalTitleEditor";
@@ -196,7 +198,7 @@ public sealed class JournalPlugin : BaseUnityPlugin
         {
             currentEvent.Use();
             PasteCurrentSceneIntoDraft();
-            _focusEditorRequested = true;
+            RequestEditorFocus();
         }
     }
 
@@ -401,7 +403,10 @@ public sealed class JournalPlugin : BaseUnityPlugin
         _draftTitle = title;
         _draftContent = string.Empty;
         _mode = JournalMode.EditContent;
-        _focusEditorRequested = true;
+        RequestEditorFocus();
+        _lastContentObserved = string.Empty;
+        _lastContentCursorIndex = -1;
+        _suppressContentEditorAnnouncementsUntilFrame = Time.frameCount + 1;
         SavePages();
         Speak($"Created page {title}. Type your journal entry. Press Escape when you are done.", interrupt: true);
     }
@@ -458,6 +463,9 @@ public sealed class JournalPlugin : BaseUnityPlugin
             _draftTitle = string.Empty;
             _titleEntryPurpose = TitleEntryPurpose.Create;
             _mode = JournalMode.CreateTitle;
+            RequestEditorFocus();
+            _lastTitleObserved = string.Empty;
+            _lastTitleCursorIndex = -1;
             Speak("Create new page. Type a title, then press Enter to continue. Press Escape to cancel.", interrupt: true);
             return;
         }
@@ -475,7 +483,10 @@ public sealed class JournalPlugin : BaseUnityPlugin
         _draftTitle = page.Title;
         _draftContent = page.Content ?? string.Empty;
         _mode = JournalMode.EditContent;
-        _focusEditorRequested = true;
+        RequestEditorFocus();
+        _lastContentObserved = _draftContent;
+        _lastContentCursorIndex = -1;
+        _suppressContentEditorAnnouncementsUntilFrame = Time.frameCount + 1;
         Speak($"Editing {page.Title}. Type your entry. Press Escape when you are done.", interrupt: true);
     }
 
@@ -489,7 +500,9 @@ public sealed class JournalPlugin : BaseUnityPlugin
         _draftTitle = page.Title;
         _titleEntryPurpose = TitleEntryPurpose.Rename;
         _mode = JournalMode.CreateTitle;
-        _focusEditorRequested = true;
+        RequestEditorFocus();
+        _lastTitleObserved = _draftTitle;
+        _lastTitleCursorIndex = -1;
         Speak($"Rename page {page.Title}. Type a new title, then press Enter to save. Press Escape to cancel.", interrupt: true);
     }
 
@@ -782,6 +795,12 @@ public sealed class JournalPlugin : BaseUnityPlugin
             return;
         }
 
+        if (controlName == ContentEditorControlName && Time.frameCount <= _suppressContentEditorAnnouncementsUntilFrame)
+        {
+            lastObservedText = currentText ?? string.Empty;
+            return;
+        }
+
         if (Time.frameCount == _lastEditorAnnouncementFrame)
         {
             return;
@@ -802,6 +821,14 @@ public sealed class JournalPlugin : BaseUnityPlugin
         var normalizedCurrent = currentText ?? string.Empty;
         var previousText = lastObservedText ?? string.Empty;
         var currentCursorIndex = Mathf.Clamp(editor.cursorIndex, 0, normalizedCurrent.Length);
+
+        if (lastCursorIndex < 0)
+        {
+            lastObservedText = normalizedCurrent;
+            lastCursorIndex = currentCursorIndex;
+            return;
+        }
+
         string announcement;
         if (previousText == normalizedCurrent
             && lastCursorIndex != currentCursorIndex
@@ -841,7 +868,7 @@ public sealed class JournalPlugin : BaseUnityPlugin
             }
 
             var insertedText = TryGetInsertedText(previousText, currentText);
-            if (!string.IsNullOrWhiteSpace(insertedText))
+            if (!string.IsNullOrEmpty(insertedText))
             {
                 return DescribeInsertedText(insertedText);
             }
@@ -1090,7 +1117,20 @@ public sealed class JournalPlugin : BaseUnityPlugin
         }
 
         GUI.FocusControl(controlName);
+        if (_focusEditorFramesRemaining > 0)
+        {
+            _focusEditorFramesRemaining--;
+            _focusEditorRequested = _focusEditorFramesRemaining > 0;
+            return;
+        }
+
         _focusEditorRequested = false;
+    }
+
+    private void RequestEditorFocus()
+    {
+        _focusEditorRequested = true;
+        _focusEditorFramesRemaining = 2;
     }
 
     private bool TryGetCurrentPage(out JournalPage page)
